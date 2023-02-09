@@ -10,7 +10,7 @@ module.exports = class Cart {
 
   //region public methods
   constructor(items) {
-    this.#items = items;
+    this.add(items);
   }
 
   get items() {
@@ -47,8 +47,8 @@ module.exports = class Cart {
   }
 
   add(items) {
-    if (items === null) {
-      throw new UpdateCartException("Cart must have at least one item");
+    if (this.#items === null && items === null) {
+        throw new UpdateCartException("Cart must have at least one item");
     }
     this.#items = items;
   }
