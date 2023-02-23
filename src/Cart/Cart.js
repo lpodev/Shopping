@@ -15,40 +15,40 @@ module.exports = class Cart {
 
   get items() {
     if (this.#items === null) {
-      throw new EmptyCartException("Cart must have at least one item");
+      throw new EmptyCartException();
     }
     return this.#items;
   }
 
   get total() {
     if (this.#items === null) {
-      throw new EmptyCartException("Cart must have at least one item");
+      throw new EmptyCartException();
     }
-    let total = 0;
+    let totalPrice = 0;
     for (let item of this.#items) {
-      total += item.quantity * item.price;
+      totalPrice += item.quantity * item.price;
     }
-    return total;
+    return totalPrice;
   }
   //endregion public methods
 
   //region private methods
-  count(bool = false) {
+  count(distinct = false) {
     if (this.#items === null) {
-      throw new EmptyCartException("Cart must have at least one item");
-    } else if (bool) {
+      throw new EmptyCartException();
+    } else if (distinct) {
       return this.#items.length;
     }
-    let count = 0;
+    let countItems = 0;
     for (let item of this.#items) {
-      count += item.quantity;
+      countItems += item.quantity;
     }
-    return count;
+    return countItems;
   }
 
   add(items) {
     if (this.#items === null && items === null) {
-        throw new UpdateCartException("Cart must have at least one item");
+        throw new UpdateCartException();
     }
     this.#items = items;
   }
