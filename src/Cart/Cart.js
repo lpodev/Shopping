@@ -7,7 +7,7 @@ const MultipleCurrenciesException = require("./MultipleCurrenciesException.js");
 module.exports = class Cart {
   //region private attributes
   #items = [];
-  #currency = "CHF";
+  #currency;
   //endregion private attributes
 
   //region public methods
