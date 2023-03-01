@@ -2,15 +2,22 @@
 
 const EmptyCartException = require("./EmptyCartException.js");
 const UpdateCartException = require("./UpdateCartException.js");
+const MultipleCurrenciesException = require("./MultipleCurrenciesException.js");
 
 module.exports = class Cart {
   //region private attributes
   #items = [];
+  #currency = "CHF";
   //endregion private attributes
 
   //region public methods
-  constructor(items) {
+  constructor(items = [], currency = "CHF") {
+    this.#currency = currency;
     this.add(items);
+  }
+
+  get currency() {
+    return this.#currency;
   }
 
   get items() {
@@ -47,8 +54,18 @@ module.exports = class Cart {
   }
 
   add(items) {
-    if (this.#items === null && items === null) {
+    if (items === null) {
         throw new UpdateCartException();
+    }
+    if (items.length != 0) {
+      if (this.#items.length === 0) {
+        this.#currency = items[0].currency;
+      }
+      for (let item of items) {
+        if (item.currency !== this.#currency) {
+          throw new MultipleCurrenciesException();
+        }
+      }
     }
     this.#items = items;
   }
